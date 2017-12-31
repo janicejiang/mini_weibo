@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  attr_accessor :remember_token
+
   # 在类中调用方法或访问属性时可以不用self, 赋值除外.
   before_save { self.email = email.downcase }
 
@@ -17,5 +19,16 @@ class User < ApplicationRecord
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                   BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
+  end
+
+  # 返回一个随机令牌
+  def self.new_token
+    SecureRandom.urlsafe_base64
+  end
+
+  # 为了持久保存会话, 在数据库中记住用户
+  def remember
+    self.remember_token = User.new_token
+    update_attribute(:remember_digest, User.digest(remember_token))
   end
 end

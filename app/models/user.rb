@@ -32,11 +32,16 @@ class User < ApplicationRecord
   end
 
   # 如果指定的令牌和摘要匹配, 返回 true
-  def authenticated?(remember_token)
-    return false if remember_digest.nil?
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  # def authenticated?(remember_token)
+  #   return false if remember_digest.nil?
+  #   BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  # end
+  def authenticated?(attribute, token)
+    digest = send("#{attribute}_digest")
+    return false if digest.nil?
+    BCrypt::Password.new(digest).is_password?(token)
   end
-
+  
   # 忘记用户
   def forget
     update_attribute(:remember_digest, nil)

@@ -15,9 +15,12 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      log_in @user
-      flash[:success] = "Welcome to the Mini Weibo!"
-      redirect_to @user # user_url(@user)
+      # log_in @user
+      # flash[:success] = "Welcome to the Mini Weibo!"
+      # redirect_to @user # user_url(@user)
+      UserMailer.account_activation(@user).deliver_now
+      flash[:info] = "Please check your email to activate your account"
+      redirect_to root_url
     else
       render 'new'
     end

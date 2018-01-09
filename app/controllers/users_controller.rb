@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :admin_user, only: :destroy
 
   def index
-    @users = User.paginate(page: params[:page], per_page: 10)
+    @users = User.where(activated: true).paginate(page: params[:page], per_page: 10)
   end
 
   def new
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
       # log_in @user
       # flash[:success] = "Welcome to the Mini Weibo!"
       # redirect_to @user # user_url(@user)
-      UserMailer.account_activation(@user).deliver_now
+      @user.send_activation_email
       flash[:info] = "Please check your email to activate your account"
       redirect_to root_url
     else
@@ -28,8 +28,9 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    redirect_to root_url unless @user.activated
   end
-
+  
   def edit
     @user = User.find(params[:id])
   end

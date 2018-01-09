@@ -41,10 +41,20 @@ class User < ApplicationRecord
     return false if digest.nil?
     BCrypt::Password.new(digest).is_password?(token)
   end
-  
+
   # 忘记用户
   def forget
     update_attribute(:remember_digest, nil)
+  end
+
+  # 激活账户
+  def activate
+    update_columns(activated: true, activated_at: Time.zone.now)
+  end
+  
+  # 发送激活邮件
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
   end
 
   private

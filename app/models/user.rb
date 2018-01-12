@@ -68,7 +68,7 @@ class User < ApplicationRecord
   def send_password_reset_email
     UserMailer.password_reset(self).deliver_now
   end
-  
+
   private
     # 在类中调用方法或访问属性时可以不用self, 赋值除外.
     def downcase_email

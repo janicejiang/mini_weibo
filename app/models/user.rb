@@ -60,10 +60,12 @@ class User < ApplicationRecord
   # 设置密码重设相关的属性
   def create_reset_digest
     self.reset_token = User.new_token
-    update_attribute(:reset_digest, User.digest(reset_token))
-    update_attribute(:reset_sent_at, Time.zone.now)
+    # update_attribute(:reset_digest, User.digest(reset_token))
+    # update_attribute(:reset_sent_at, Time.zone.now)
+    update_columns(reset_digest: User.digest(reset_token),
+                   reset_sent_at: Time.zone.now)
   end
-
+  
   # 发送密码重设邮件
   def send_password_reset_email
     UserMailer.password_reset(self).deliver_now

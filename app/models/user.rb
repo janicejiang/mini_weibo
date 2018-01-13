@@ -69,6 +69,11 @@ class User < ApplicationRecord
     UserMailer.password_reset(self).deliver_now
   end
 
+  # 如果密码重设请求超时了, 返回 true
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+
   private
     # 在类中调用方法或访问属性时可以不用self, 赋值除外.
     def downcase_email

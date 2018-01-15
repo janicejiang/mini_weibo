@@ -3,10 +3,8 @@ require 'test_helper'
 class MicropostTest < ActiveSupport::TestCase
   def setup
     @user = users(:michael)
-
-    # 这行代码不符合常见做法
-    @micropost = Micropost.new(content: "Lorem ipsum", user_id: @user.id)
-  end
+    @micropost = @user.microposts.build(content: "Lorem ipsum")
+  end 
 
   test "micropost should be valid" do
     assert @micropost.valid?

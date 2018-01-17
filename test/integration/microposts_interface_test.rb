@@ -16,7 +16,7 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
       post microposts_path, params: { micropost: { content: "" } }
     end
     assert_select 'span.help-block'
-
+    
     # 有效提交
     content = "This micropost really ties the room together"
     picture = fixture_file_upload('test/fixtures/rails.png', 'image/png')

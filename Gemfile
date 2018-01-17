@@ -38,6 +38,8 @@ gem 'faker', '1.8.5'
 gem 'will_paginate', '3.1.6'
 gem 'bootstrap-will_paginate', '1.0.0'
 gem 'figaro'
+gem 'carrierwave', '1.2.2'
+gem 'mini_magick', '4.8.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

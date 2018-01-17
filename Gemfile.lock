@@ -122,7 +122,7 @@ GEM
     nio4r (2.2.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
-    pg (1.0.0)
+    pg (0.21.0)
     public_suffix (3.0.1)
     puma (3.11.0)
     qiniu (6.9.0)
@@ -245,7 +245,7 @@ DEPENDENCIES
   jquery-rails (= 4.3.1)
   listen (>= 3.0.5, < 3.2)
   mini_magick (= 4.8.0)
-  pg
+  pg (~> 0.18)
   puma (~> 3.7)
   qiniu-rs
   rails (~> 5.1.4)

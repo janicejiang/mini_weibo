@@ -3,6 +3,7 @@ class User < ApplicationRecord
   has_many :active_relationships, class_name: "Relationship",
                                   foreign_key: "follower_id",
                                   dependent: :destroy
+  has_many :following, through: :active_relationships, source: :followed
 
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save :downcase_email
@@ -86,6 +87,21 @@ class User < ApplicationRecord
     Micropost.where("user_id = ?", id)
   end
 
+  # 关注另一个用户
+  def follow(other_user)
+    following << other_user
+  end
+
+  # 取消关注另一个用户
+  def unfollow(other_user)
+    following.delete(other_user)
+  end
+
+  # 如果当前用户关注了指定的用户, 返回 true
+  def following?(other_user)
+    following.include?(other_user)
+  end
+  
   private
     # 在类中调用方法或访问属性时可以不用self, 赋值除外.
     def downcase_email
